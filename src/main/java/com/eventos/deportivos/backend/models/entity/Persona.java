@@ -1,6 +1,9 @@
 package com.eventos.deportivos.backend.models.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,12 +17,20 @@ public class Persona implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPersona;
 
+    @NotEmpty
     @Column(nullable = false)
     private String nombrePersona;
+    @NotEmpty
+    @Column(nullable = false)
     private String apellidosPersonas;
+    @NotNull
+    @Column(nullable = false, unique =true)
     private int dniPersona;
     @Temporal(TemporalType.DATE)
     private Date fechaNacPersona;
+
+    @Email
+    @NotEmpty
     @Column(nullable = false, unique = true)
     private String coreoPersona;
     @Column(nullable = false, unique = true)
