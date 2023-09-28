@@ -1,5 +1,6 @@
 package com.eventos.deportivos.backend.models.service;
 
+import com.eventos.deportivos.backend.models.dao.IEquipoDao;
 import com.eventos.deportivos.backend.models.dao.IJugadorDao;
 import com.eventos.deportivos.backend.models.entity.Jugador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,13 @@ import java.util.List;
 
 @Service
 @Qualifier("jugador")
-public class JugadorServiceImpl implements ServiceEntity<Jugador, Long> {
+public class JugadorServiceImpl implements ServiceEntity<Jugador, Long> , ServiceEntityEntity<Jugador, Long> {
 
     @Autowired
     private IJugadorDao jugadorDao;
+
+    @Autowired
+    private IEquipoDao equipoDao;
 
     @Override
     public List<Jugador> listar() {
@@ -38,5 +42,10 @@ public class JugadorServiceImpl implements ServiceEntity<Jugador, Long> {
     @Override
     public boolean nombreExiste(String ent) {
         return false;
+    }
+
+    @Override
+    public List<Jugador> listarByEntity(Long id) {
+        return equipoDao.findJugadorByEquipoId(id);
     }
 }

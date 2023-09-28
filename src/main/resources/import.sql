@@ -32,3 +32,5 @@ insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values 
 insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Kenyi G', '2000-05-15', 77098765,9);
 insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Paul G', '2000-11-02', 79877355,5);
 insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Elvis R', '2000-11-08', 77090345,3);
+
+insert into equipos_jugadores(id_equipo, id_jugador) values (1,1);

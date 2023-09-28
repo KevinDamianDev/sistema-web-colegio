@@ -1,8 +1,11 @@
 package com.eventos.deportivos.backend.models.controller;
 
 import com.eventos.deportivos.backend.models.entity.Equipo;
+import com.eventos.deportivos.backend.models.entity.Evento;
+import com.eventos.deportivos.backend.models.entity.Jugador;
 import com.eventos.deportivos.backend.models.entity.Persona;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceEntityEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -24,6 +27,10 @@ public class EquipoController {
     @Autowired
     @Qualifier("equipo")
     private ServiceEntity<Equipo, Long> equipoService;
+
+    @Autowired
+    @Qualifier("jugador")
+    private ServiceEntityEntity<Jugador, Long> jugadorService;
 
 
     @GetMapping("/")
@@ -142,4 +149,26 @@ public class EquipoController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // JUGADORES QUE TIENE UN EQUIPO
+    @GetMapping("jugadores/{id}")
+    public  ResponseEntity<?> jugadoresEquipo(@PathVariable Long id ) {
+
+        List<Jugador> listaJugador = null;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            listaJugador = jugadorService.listarByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaJugador== null || listaJugador.isEmpty()) {
+            response.put("mensaje", "No hay jugadores para el equipo.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaJugador, HttpStatus.OK);
+    }
 }
