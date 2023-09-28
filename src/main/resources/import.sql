@@ -15,3 +15,20 @@ insert into personas ( apellidos_personas, coreo_persona, dni_persona, estado_pe
 
 --insert into personas_roles (id_persona,id_rol) values (1,1);
 --insert into personas_roles (id_persona,id_rol) values (1,2);
+
+--insert into personas_eventos(id_persona,id_evento) values (1,1);
+--insert into personas_eventos(id_persona,id_evento) values (1,2);
+
+insert into equipos(nombre_equipo) values ('Aliaza lima');
+insert into equipos(nombre_equipo) values ('U');
+insert into equipos(nombre_equipo) values ('Sporting Cristal');
+insert into equipos(nombre_equipo) values ('Cienciano');
+
+--insert into eventos_equipos(id_equipo, id_evento) values(1,1);
+
+insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Kevin Da', '2000-01-12', 77097355,10);
+insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Samir G', '2000-03-14', 72297355,13);
+insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Edilson G', '2000-04-14', 77098355,11);
+insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Kenyi G', '2000-05-15', 77098765,9);
+insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Paul G', '2000-11-02', 79877355,5);
+insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Elvis R', '2000-11-08', 77090345,3);

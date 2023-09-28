@@ -14,6 +14,7 @@ public class Jugador implements Serializable {
     private Long idJugador;
 
     private String nombreJugador;
+    @Column(unique = true)
     private int dni;
     @Temporal(TemporalType.DATE)
     private Date fechaNJugador;

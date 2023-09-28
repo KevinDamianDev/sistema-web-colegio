@@ -1,6 +1,7 @@
 package com.eventos.deportivos.backend.models.controller;
 
 
+import com.eventos.deportivos.backend.models.entity.Evento;
 import com.eventos.deportivos.backend.models.entity.Persona;
 import com.eventos.deportivos.backend.models.entity.Rol;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
@@ -30,6 +31,11 @@ public class PersonaController {
     @Autowired
     @Qualifier("rol")
     private ServiceEntityEntity<Rol, Long> rolService;
+
+    @Autowired
+    @Qualifier("evento")
+    private ServiceEntityEntity<Evento, Long> eventoService;
+
 
     @GetMapping("/")
     public List<Persona> getPersonas() {
@@ -155,7 +161,7 @@ public class PersonaController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
+    // ROLES QUE TIENE UNA PERSONA
     @GetMapping("rol/{id}")
     public  ResponseEntity<?> rolesPersona(@PathVariable Long id ) {
 
@@ -176,6 +182,28 @@ public class PersonaController {
 
         }
         return new ResponseEntity<>(listaRoles, HttpStatus.OK);
+    }
+    // EVENTOS QUE TIENE UNA PERSONA
+    @GetMapping("evento/{id}")
+    public  ResponseEntity<?> eventosPersona(@PathVariable Long id ) {
+
+        List<Evento> listaEventos = null;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            listaEventos = eventoService.listarByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaEventos== null || listaEventos.isEmpty()) {
+            response.put("mensaje", "No hay eventos para el usuario.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaEventos, HttpStatus.OK);
     }
 
 }

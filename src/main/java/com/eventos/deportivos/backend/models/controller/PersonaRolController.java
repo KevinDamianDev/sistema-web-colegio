@@ -10,14 +10,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/personarol")
@@ -93,4 +90,46 @@ public class PersonaRolController {
     public List<PersonaRol> getRol() {
         return servicePersonarol.listar();
     }
+    @DeleteMapping("/")
+    public ResponseEntity<?> eliminar( @RequestBody Map<String, Long> requestBody) {
+        Long idPersona = requestBody.get("idPersona");
+        Long idRol = requestBody.get("idRol");
+        System.out.println(" ** idPersona** " + idPersona);
+        System.out.println(" ** idRol** " + idRol);
+        Persona persona= null;
+        Rol rol= null;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+
+            persona = personaService.porId(idPersona);
+            rol = rolService.porId(idRol);
+
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al realizar la inserccion en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(persona == null) {
+            response.put("mensaje", "La persona no existe en la base de datos." );
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        }
+        if(rol == null) {
+            response.put("mensaje", "El rol no existe en la base de datos." );
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        PersonaRol personaRol = new PersonaRol();
+        personaRol = servicePersonarol2.existeRegistro(idPersona, idRol);
+
+        if (personaRol != null) {
+            servicePersonarol.eliminar(personaRol.getIdPersonaRol());
+            response.put("mensaje", "El rol de la persona se ha eliminado." );
+            return new ResponseEntity<Map<String, Object> > (response, HttpStatus.OK);
+        }
+        response.put("mensaje", "No existe rol a eliminar de la persona." );
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+
+    }
+
 }

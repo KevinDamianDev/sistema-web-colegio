@@ -46,7 +46,7 @@ public class CategoriaController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (categoria== null) {
-            response.put("mensaje", "El cliente ID: ".concat(id.toString().concat(" no existe en los registros.")) );
+            response.put("mensaje", "La categoria ID: ".concat(id.toString().concat(" no existe en los registros.")) );
             return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
 
         }
@@ -104,7 +104,7 @@ public class CategoriaController {
 
 
         if (actual== null) {
-            response.put("mensaje", "Error: no se pudo ediar la categoria ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
+            response.put("mensaje", "Error: no se pudo editar la categoria ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
             return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
         }
         if (categoriaService.nombreExiste(categoria.getNombreCategoria())){

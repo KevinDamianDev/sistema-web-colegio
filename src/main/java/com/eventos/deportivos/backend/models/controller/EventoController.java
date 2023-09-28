@@ -1,7 +1,9 @@
 package com.eventos.deportivos.backend.models.controller;
 
+import com.eventos.deportivos.backend.models.entity.Equipo;
 import com.eventos.deportivos.backend.models.entity.Evento;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceEntityEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -23,6 +25,10 @@ public class EventoController {
     @Autowired
     @Qualifier("evento")
     private ServiceEntity<Evento, Long> eventoService;
+
+    @Autowired
+    @Qualifier("equipo")
+    private ServiceEntityEntity<Equipo, Long> equipoService;
 
     @GetMapping("/")
     public List<Evento> getEventos() {
@@ -148,6 +154,28 @@ public class EventoController {
 
         response.put("mensaje", "No se encontro el evento para eliminar.");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    // EQUIPOS QUE TIENE UN EVENTO
+    @GetMapping("equipos/{id}")
+    public  ResponseEntity<?> equipoEventos(@PathVariable Long id ) {
+
+        List<Equipo> listaEquipos = null;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            listaEquipos = equipoService.listarByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaEquipos== null || listaEquipos.isEmpty()) {
+            response.put("mensaje", "No hay equipos para el evento.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaEquipos, HttpStatus.OK);
     }
 
 }

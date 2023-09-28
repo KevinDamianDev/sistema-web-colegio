@@ -1,6 +1,7 @@
 package com.eventos.deportivos.backend.models.service;
 
 import com.eventos.deportivos.backend.models.dao.IEventoDao;
+import com.eventos.deportivos.backend.models.dao.IPersonaDao;
 import com.eventos.deportivos.backend.models.entity.Evento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,10 +12,13 @@ import java.util.List;
 
 @Service
 @Qualifier("evento")
-public  class EventoServiceImpl implements ServiceEntity<Evento, Long>{
+public  class EventoServiceImpl implements ServiceEntity<Evento, Long>, ServiceEntityEntity<Evento, Long>{
 
     @Autowired
     private IEventoDao eventoDao;
+
+    @Autowired
+    private IPersonaDao personaDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -45,4 +49,8 @@ public  class EventoServiceImpl implements ServiceEntity<Evento, Long>{
         return false;
     }
 
+    @Override
+    public List<Evento> listarByEntity(Long id) {
+        return personaDao.findEventoByPersonaId(id);
+    }
 }
