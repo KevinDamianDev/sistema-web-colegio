@@ -1,5 +1,6 @@
 package com.eventos.deportivos.backend.models.service;
 
+import com.eventos.deportivos.backend.models.dao.ICategoriaDao;
 import com.eventos.deportivos.backend.models.dao.IEventoDao;
 import com.eventos.deportivos.backend.models.dao.IPersonaDao;
 import com.eventos.deportivos.backend.models.entity.Evento;
@@ -12,13 +13,16 @@ import java.util.List;
 
 @Service
 @Qualifier("evento")
-public  class EventoServiceImpl implements ServiceEntity<Evento, Long>, ServiceEntityEntity<Evento, Long>{
+public  class EventoServiceImpl implements ServiceEntity<Evento, Long>, ServiceEntityEntity<Evento, Long>, ServiceUnoAMuchos<Evento, Long>{
 
     @Autowired
     private IEventoDao eventoDao;
 
     @Autowired
     private IPersonaDao personaDao;
+
+    @Autowired
+    private ICategoriaDao categoriaDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -52,5 +56,10 @@ public  class EventoServiceImpl implements ServiceEntity<Evento, Long>, ServiceE
     @Override
     public List<Evento> listarByEntity(Long id) {
         return personaDao.findEventoByPersonaId(id);
+    }
+    // MUESTRA LOS EVENTOS QUE PERTENECEN A UNA CATEGORIA
+    @Override
+    public List<Evento> listarEntitysByEntity(Long id) {
+        return categoriaDao.findByCategoria(id);
     }
 }

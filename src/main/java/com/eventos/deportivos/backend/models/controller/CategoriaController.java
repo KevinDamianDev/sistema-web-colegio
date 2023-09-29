@@ -1,8 +1,10 @@
 package com.eventos.deportivos.backend.models.controller;
 
 import com.eventos.deportivos.backend.models.entity.Categoria;
+import com.eventos.deportivos.backend.models.entity.Evento;
 import com.eventos.deportivos.backend.models.service.CategoriaServiceImpl;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceUnoAMuchos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -12,10 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,6 +24,10 @@ public class CategoriaController {
     @Autowired
     @Qualifier("categoria")
     private ServiceEntity<Categoria, Long> categoriaService;
+
+    @Autowired
+    @Qualifier("evento")
+    private ServiceUnoAMuchos<Evento, Long> eventoService;
 
 
     @GetMapping("/")
@@ -150,4 +153,36 @@ public class CategoriaController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // EVENTOS QUE PERTENECEN A UNA CATEGORIA
+
+    @GetMapping("/eventos/{id}")
+    public ResponseEntity<?> getEventosByCategoria( @PathVariable Long id ) {
+
+        List<Evento> evento= new ArrayList<>();
+        Categoria categoria;
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            evento = eventoService.listarEntitysByEntity(id);
+            categoria = categoriaService.porId(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (categoria == null){
+            response.put("mensaje", "No existen la categoria ingresada.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+        }
+
+        if (evento== null || evento.isEmpty() ) {
+            response.put("mensaje", "No existen eventos para la categoria " +categoria.getNombreCategoria());
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(evento, HttpStatus.OK);
+    }
 }

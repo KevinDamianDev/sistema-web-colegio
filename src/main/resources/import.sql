@@ -34,3 +34,9 @@ insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values 
 insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Elvis R', '2000-11-08', 77090345,3);
 
 insert into equipos_jugadores(id_equipo, id_jugador) values (1,1);
+
+insert into fases (nombre_fase, id_evento) values ('Fase 1',1);
+insert into fases (nombre_fase, id_evento) values ('Fase 2',1);
+
+
+insert into fechas (nombre_fecha, id_fase) values ('Primera fecha',1);

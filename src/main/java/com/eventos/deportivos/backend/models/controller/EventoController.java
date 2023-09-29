@@ -2,8 +2,10 @@ package com.eventos.deportivos.backend.models.controller;
 
 import com.eventos.deportivos.backend.models.entity.Equipo;
 import com.eventos.deportivos.backend.models.entity.Evento;
+import com.eventos.deportivos.backend.models.entity.Fase;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
 import com.eventos.deportivos.backend.models.service.ServiceEntityEntity;
+import com.eventos.deportivos.backend.models.service.ServiceUnoAMuchos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -29,6 +31,10 @@ public class EventoController {
     @Autowired
     @Qualifier("equipo")
     private ServiceEntityEntity<Equipo, Long> equipoService;
+
+    @Autowired
+    @Qualifier("fase")
+    private ServiceUnoAMuchos<Fase, Long> faseService;
 
     @GetMapping("/")
     public List<Evento> getEventos() {
@@ -109,7 +115,7 @@ public class EventoController {
 
 
         if (actual== null) {
-            response.put("mensaje", "Error: no se pudo ediar el evento ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
+            response.put("mensaje", "Error: no se pudo editar el evento ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
             return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
         }
        /* if (eventoService.nombreExiste(evento.getNombreEvento())){
@@ -178,4 +184,26 @@ public class EventoController {
         return new ResponseEntity<>(listaEquipos, HttpStatus.OK);
     }
 
+    // FASES QUE TIENE UN EVENTO
+    @GetMapping("fases/{id}")
+    public  ResponseEntity<?> fasesEventos(@PathVariable Long id ) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        List<Fase> listaFases = null;
+        try {
+            listaFases = faseService.listarEntitysByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaFases== null || listaFases.isEmpty()) {
+            response.put("mensaje", "No hay fases para el evento.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaFases, HttpStatus.OK);
+    }
 }
