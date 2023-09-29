@@ -1,8 +1,6 @@
 package com.eventos.deportivos.backend.models.controller;
 
-import com.eventos.deportivos.backend.models.entity.Evento;
-import com.eventos.deportivos.backend.models.entity.Fase;
-import com.eventos.deportivos.backend.models.entity.Fecha;
+import com.eventos.deportivos.backend.models.entity.*;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
 import com.eventos.deportivos.backend.models.service.ServiceUnoAMuchos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,10 @@ public class FaseController {
     @Autowired
     @Qualifier("fecha")
     private ServiceUnoAMuchos<Fecha, Long> fechaService;
+
+    @Autowired
+    @Qualifier("grupo")
+    private ServiceUnoAMuchos<Grupo, Long> grupoService;
 
     @GetMapping("/")
     public List<Fase> getFases() {
@@ -172,5 +174,28 @@ public class FaseController {
 
         }
         return new ResponseEntity<>(listaFechas, HttpStatus.OK);
+    }
+
+    // GRUPOS QUE TIENE UNA FASE
+    @GetMapping("grupos/{id}")
+    public  ResponseEntity<?> gruposFases(@PathVariable Long id ) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        List<Grupo> listaGrupo = null;
+        try {
+            listaGrupo = grupoService.listarEntitysByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaGrupo== null || listaGrupo.isEmpty()) {
+            response.put("mensaje", "No hay grupos para la Fase.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaGrupo, HttpStatus.OK);
     }
 }

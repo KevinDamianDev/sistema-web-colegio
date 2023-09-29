@@ -1,8 +1,10 @@
 package com.eventos.deportivos.backend.models.controller;
 
+import com.eventos.deportivos.backend.models.entity.Duelo;
 import com.eventos.deportivos.backend.models.entity.Fase;
 import com.eventos.deportivos.backend.models.entity.Fecha;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceUnoAMuchos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -23,6 +25,10 @@ public class FechaController {
     @Autowired
     @Qualifier("fecha")
     private ServiceEntity<Fecha, Long> fechaService;
+
+    @Autowired
+    @Qualifier("duelo")
+    private ServiceUnoAMuchos<Duelo, Long> dueloService;
 
     @GetMapping("/")
     public List<Fecha> getFases() {
@@ -140,6 +146,29 @@ public class FechaController {
 
         response.put("mensaje", "No se encontro la fecha para eliminar.");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // DUELOS QUE TIENE UNA FECHA
+    @GetMapping("duelos/{id}")
+    public  ResponseEntity<?> fechasFases(@PathVariable Long id ) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        List<Duelo> listaDuelo = null;
+        try {
+            listaDuelo = dueloService.listarEntitysByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaDuelo== null || listaDuelo.isEmpty()) {
+            response.put("mensaje", "No hay duelos para la fecha.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaDuelo, HttpStatus.OK);
     }
 
 }

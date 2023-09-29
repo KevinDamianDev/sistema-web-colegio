@@ -40,3 +40,10 @@ insert into fases (nombre_fase, id_evento) values ('Fase 2',1);
 
 
 insert into fechas (nombre_fecha, id_fase) values ('Primera fecha',1);
+
+insert into duelos(fecha_duelo, lugar_duelo, id_fecha) values ('2023-10-02','Piura',1);
+insert into duelos(fecha_duelo, lugar_duelo, id_fecha) values ('2023-10-03','Chulucanas',1);
+
+
+insert into grupos (nombre_grupo, id_fase) values ('Grupo A',1);
+
