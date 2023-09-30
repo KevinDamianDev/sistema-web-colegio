@@ -14,7 +14,7 @@ public class Gol implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idGol;
 
-    private int minutoGol;
+    private Long minutoGol;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idEquipoJugador")
@@ -34,11 +34,11 @@ public class Gol implements Serializable {
         this.idGol = idGol;
     }
 
-    public int getMinutoGol() {
+    public Long getMinutoGol() {
         return minutoGol;
     }
 
-    public void setMinutoGol(int minutoGol) {
+    public void setMinutoGol(Long minutoGol) {
         this.minutoGol = minutoGol;
     }
 

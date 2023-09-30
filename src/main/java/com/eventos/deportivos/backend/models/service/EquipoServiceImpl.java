@@ -2,6 +2,7 @@ package com.eventos.deportivos.backend.models.service;
 
 import com.eventos.deportivos.backend.models.dao.IEquipoDao;
 import com.eventos.deportivos.backend.models.dao.IEventoDao;
+import com.eventos.deportivos.backend.models.dao.IGrupoDao;
 import com.eventos.deportivos.backend.models.entity.Equipo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,13 +12,17 @@ import java.util.List;
 
 @Service
 @Qualifier("equipo")
-public class EquipoServiceImpl implements ServiceEntity<Equipo, Long>, ServiceEntityEntity<Equipo, Long>{
+public class EquipoServiceImpl implements ServiceEntity<Equipo, Long>, ServiceEntityEntity<Equipo, Long>
+, ServiceEquipoGrupo<Equipo, Long> {
 
     @Autowired
     private IEquipoDao equipoDao;
 
     @Autowired
     private IEventoDao eventoDao;
+
+    @Autowired
+    private IGrupoDao grupoDao;
 
     @Override
     public List<Equipo> listar() {
@@ -43,9 +48,14 @@ public class EquipoServiceImpl implements ServiceEntity<Equipo, Long>, ServiceEn
     public boolean nombreExiste(String ent) {
         return false;
     }
-
+    // MUESTRA LOS EQUIPOS QUE PERTENECEN A UN EVENTO.
     @Override
     public List<Equipo> listarByEntity(Long id) {
         return eventoDao.findEquipoByEventoId(id);
+    }
+
+    @Override
+    public List<Equipo> listarEquipoByGrupo(Long id) {
+        return grupoDao.findEquipoByGrupoId(id);
     }
 }

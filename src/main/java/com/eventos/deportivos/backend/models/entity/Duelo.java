@@ -15,6 +15,8 @@ public class Duelo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDuelo;
 
+    private String nombreDuelo;
+
     @Temporal(TemporalType.DATE)
     private Date fechaDuelo;
 
@@ -24,6 +26,14 @@ public class Duelo implements Serializable {
     @JoinColumn(name = "idFecha")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Fecha fecha;
+
+    public String getNombreDuelo() {
+        return nombreDuelo;
+    }
+
+    public void setNombreDuelo(String nombreDuelo) {
+        this.nombreDuelo = nombreDuelo;
+    }
 
     public Fecha getFecha() {
         return fecha;

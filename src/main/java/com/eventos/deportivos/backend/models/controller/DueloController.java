@@ -1,8 +1,8 @@
 package com.eventos.deportivos.backend.models.controller;
 
-import com.eventos.deportivos.backend.models.entity.Duelo;
-import com.eventos.deportivos.backend.models.entity.Fecha;
+import com.eventos.deportivos.backend.models.entity.*;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceUnoAMuchos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -25,6 +25,13 @@ public class DueloController {
     @Qualifier("duelo")
     private ServiceEntity<Duelo, Long> dueloService;
 
+    @Autowired
+    @Qualifier("equipogrupoduelo")
+    private ServiceUnoAMuchos<EquipoGrupoDuelo, Long> equipoGrupoDueloService;
+
+    @Autowired
+    @Qualifier("gol")
+    private ServiceUnoAMuchos<Gol, Long> golService;
 
     @GetMapping("/")
     public List<Duelo> getDuelo() {
@@ -107,6 +114,7 @@ public class DueloController {
 
         try {
             actual.setFechaDuelo(duelo.getFechaDuelo());
+            actual.setNombreDuelo(duelo.getNombreDuelo());
             actual.setLugarDuelo(duelo.getLugarDuelo());
             actual.setFecha(duelo.getFecha());
             nuevo = dueloService.guardar(actual);
@@ -146,7 +154,49 @@ public class DueloController {
     }
 
 
+    // EQUIPOS QUE TIENE UN DUELO
+    @GetMapping("equipos/{id}")
+    public  ResponseEntity<?> equipoDuelo(@PathVariable Long id ) {
 
+        List<EquipoGrupoDuelo> listaEquipos = null;
+        Map<String, Object> response = new HashMap<>();
 
+        try {
+            listaEquipos = equipoGrupoDueloService.listarEntitysByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaEquipos== null || listaEquipos.isEmpty()) {
+            response.put("mensaje", "No hay equipos para el duelo.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaEquipos, HttpStatus.OK);
+    }
+    // GOLES QUE TIENE UN DUELO
+    @GetMapping("goles/{id}")
+    public  ResponseEntity<?>golesDuelo(@PathVariable Long id ) {
+
+        List<Gol> listaGol;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            listaGol = golService.listarEntitysByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaGol== null || listaGol.isEmpty()) {
+            response.put("mensaje", "No hay goles para el duelo.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaGol, HttpStatus.OK);
+    }
 
 }

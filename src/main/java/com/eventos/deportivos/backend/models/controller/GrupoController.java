@@ -1,7 +1,11 @@
 package com.eventos.deportivos.backend.models.controller;
 
+import com.eventos.deportivos.backend.models.entity.Equipo;
+import com.eventos.deportivos.backend.models.entity.EquipoEstadistica;
 import com.eventos.deportivos.backend.models.entity.Grupo;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceEntityEntity;
+import com.eventos.deportivos.backend.models.service.ServiceEquipoGrupo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -24,6 +28,17 @@ public class GrupoController {
     @Qualifier("grupo")
     private ServiceEntity<Grupo, Long> grupoService;
 
+    @Autowired
+    @Qualifier("equipo")
+    private ServiceEntityEntity<Equipo, Long> equipoService;
+
+    @Autowired
+    @Qualifier("equipo")
+    private ServiceEquipoGrupo<Equipo,Long> equipoGrupoService;
+
+    @Autowired
+    @Qualifier("equipoestadistica")
+    private ServiceEntityEntity<EquipoEstadistica, Long> equipoEstadisticaService;
 
     @GetMapping("/")
     public List<Grupo> getGrupo() {
@@ -142,6 +157,48 @@ public class GrupoController {
         response.put("mensaje", "No se encontro el grupo para eliminar.");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    //MUESTRA LOS EQUIPO QUE PERTENECEN A UN GRUPO
+    @GetMapping("equipos/{id}")
+    public  ResponseEntity<?> equipoGrupos(@PathVariable Long id ) {
 
+        List<Equipo> listaEquipos;
+        Map<String, Object> response = new HashMap<>();
 
+        try {
+            listaEquipos = equipoGrupoService.listarEquipoByGrupo(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaEquipos== null || listaEquipos.isEmpty()) {
+            response.put("mensaje", "No hay equipos para el grupo.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaEquipos, HttpStatus.OK);
+    }
+
+    //MUESTRA LAS ESTADISTICAS DE EQUIPOS QUE PERTENECEN A UN GRUPO
+    @GetMapping("estadisticas/{id}")
+    public  ResponseEntity<?> estadisticasEquipoGrupos(@PathVariable Long id ) {
+
+        List<EquipoEstadistica> listas;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            listas = equipoEstadisticaService.listarByEntity(id);
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listas== null || listas.isEmpty()) {
+            response.put("mensaje", "No hay estadisticas de equipos para el grupo.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listas, HttpStatus.OK);
+    }
 }

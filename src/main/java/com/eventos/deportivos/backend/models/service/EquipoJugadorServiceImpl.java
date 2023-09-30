@@ -43,6 +43,6 @@ public class EquipoJugadorServiceImpl implements ServiceEntity<EquipoJugador, Lo
 
     @Override
     public EquipoJugador porId(Long id) {
-        return null;
+        return equipoJugadorDao.findById(id).orElse(null);
     }
 }

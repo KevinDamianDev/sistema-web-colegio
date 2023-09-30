@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IEventoDao extends CrudRepository<Evento, Long> {
-
+    // EQUIPOS QUE PERTENECEN A UN EVENTO
     @Query("SELECT pr.equipo FROM EventoEquipo pr WHERE pr.evento.idEvento = :id")
     List<Equipo> findEquipoByEventoId(@Param("id") Long id);
-
+    // FASES QUE PERTENECEN A UN EVENTO
     @Query("SELECT e FROM Fase e WHERE e.evento.idEvento = :eventoId")
     List<Fase> findFaseByEvento(@Param("eventoId") Long eventoId);
 }

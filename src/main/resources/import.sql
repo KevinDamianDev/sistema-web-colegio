@@ -30,10 +30,14 @@ insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values 
 insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Samir G', '2000-03-14', 72297355,13);
 insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Edilson G', '2000-04-14', 77098355,11);
 insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Kenyi G', '2000-05-15', 77098765,9);
-insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Paul G', '2000-11-02', 79877355,5);
-insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Elvis R', '2000-11-08', 77090345,3);
+--insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Paul G', '2000-11-02', 79877355,5);
+--insert into jugadores (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Elvis R', '2000-11-08', 77090345,3);
 
 insert into equipos_jugadores(id_equipo, id_jugador) values (1,1);
+insert into equipos_jugadores(id_equipo, id_jugador) values (2,2);
+insert into equipos_jugadores(id_equipo, id_jugador) values (3,3);
+insert into equipos_jugadores(id_equipo, id_jugador) values (4,4);
+
 
 insert into fases (nombre_fase, id_evento) values ('Fase 1',1);
 insert into fases (nombre_fase, id_evento) values ('Fase 2',1);
@@ -41,9 +45,27 @@ insert into fases (nombre_fase, id_evento) values ('Fase 2',1);
 
 insert into fechas (nombre_fecha, id_fase) values ('Primera fecha',1);
 
-insert into duelos(fecha_duelo, lugar_duelo, id_fecha) values ('2023-10-02','Piura',1);
-insert into duelos(fecha_duelo, lugar_duelo, id_fecha) values ('2023-10-03','Chulucanas',1);
+insert into duelos(nombre_duelo, fecha_duelo, lugar_duelo, id_fecha) values ('P. 1 - Alianza vs U','2023-10-02','Piura',1);
+insert into duelos(nombre_duelo, fecha_duelo, lugar_duelo, id_fecha) values ('P. 2 - SP vs Cienciano','2023-10-03','Chulucanas',1);
 
 
 insert into grupos (nombre_grupo, id_fase) values ('Grupo A',1);
+insert into grupos (nombre_grupo, id_fase) values ('Grupo B',1);
+
+insert into equipos_grupos(id_equipo, id_grupo) values(1,1);
+insert into equipos_grupos(id_equipo, id_grupo) values(2,1);
+insert into equipos_grupos(id_equipo, id_grupo) values(3,2);
+insert into equipos_grupos(id_equipo, id_grupo) values(4,2);
+
+insert into equipos_grupos_duelos(id_duelo,id_equipo_grupo) values(1,1);
+insert into equipos_grupos_duelos(id_duelo,id_equipo_grupo) values(1,2);
+insert into equipos_grupos_duelos(id_duelo,id_equipo_grupo) values(2,3);
+insert into equipos_grupos_duelos(id_duelo,id_equipo_grupo) values(2,4);
+
+insert into goles (minuto_gol, id_duelo, id_equipo_jugador) values (7,1,1);
+insert into goles (minuto_gol, id_duelo, id_equipo_jugador) values (20,1,2);
+
+insert into equipos_estadisticas(empatados, ganados, goles_contra, goles_favor, jugados, perdidos, puntos, id_equipo_grupo) values (0,1,0,2,1,2,3,1);
+
+
 
