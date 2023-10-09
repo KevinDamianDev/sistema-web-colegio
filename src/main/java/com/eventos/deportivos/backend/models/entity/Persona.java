@@ -17,10 +17,8 @@ public class Persona implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPersona;
 
-    @NotEmpty
     @Column(nullable = false)
     private String nombrePersona;
-    @NotEmpty
     @Column(nullable = false)
     private String apellidosPersonas;
     @NotNull
@@ -32,11 +30,11 @@ public class Persona implements Serializable {
     @Email
     @NotEmpty
     @Column(nullable = false, unique = true)
-    private String coreoPersona;
+    private String correoPersona;
     @Column(nullable = false, unique = true)
     private String usuarioPersona;
     private String passwordPersona;
-    private boolean estadoPersona;
+    private String estadoPersona;
 
     public Long getIdPersona() {
         return idPersona;
@@ -78,12 +76,12 @@ public class Persona implements Serializable {
         this.fechaNacPersona = fechaNacPersona;
     }
 
-    public String getCoreoPersona() {
-        return coreoPersona;
+    public String getCorreoPersona() {
+        return correoPersona;
     }
 
-    public void setCoreoPersona(String coreoPersona) {
-        this.coreoPersona = coreoPersona;
+    public void setCorreoPersona(String correoPersona) {
+        this.correoPersona = correoPersona;
     }
 
     public String getUsuarioPersona() {
@@ -102,11 +100,11 @@ public class Persona implements Serializable {
         this.passwordPersona = passwordPersona;
     }
 
-    public boolean isEstadoPersona() {
+    public String getEstadoPersona() {
         return estadoPersona;
     }
 
-    public void setEstadoPersona(boolean estadoPersona) {
+    public void setEstadoPersona(String estadoPersona) {
         this.estadoPersona = estadoPersona;
     }
 }

@@ -1,22 +1,32 @@
 package com.eventos.deportivos.backend.models.controller;
 
-import com.eventos.deportivos.backend.models.entity.Categoria;
+import com.eventos.deportivos.backend.models.entity.Equipo;
 import com.eventos.deportivos.backend.models.entity.Jugador;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/jugadores")
 public class JugadorController {
@@ -151,4 +161,74 @@ public class JugadorController {
         response.put("mensaje", "No se encontro el jugador para eliminar.");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
+        Jugador jugador ;
+        Map<String, Object> response = new HashMap<>();
+
+
+        jugador = jugadorService.porId(id);
+
+        if(!archivo.isEmpty()) {
+            String nombreArchivo = UUID.randomUUID().toString()+"_"+ archivo.getOriginalFilename().replace(" ", "");
+            Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+
+            try {
+                Files.copy(archivo.getInputStream(), rutaArchivo);
+
+            }catch (Exception e){
+                response.put("mensaje", "Error al subir la imagen al equipo."+ nombreArchivo );
+                response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            String nombreFotoAnterior = jugador.getFoto();
+
+            if(nombreFotoAnterior !=null && nombreFotoAnterior.length()>0){
+                Path rutaFotoA =  Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
+                File archivoFotoA = rutaFotoA.toFile();
+                if (archivoFotoA.exists() && archivoFotoA.canRead()) {
+                    archivoFotoA.delete();
+                }
+            }
+            jugador.setFoto(nombreArchivo);
+            jugadorService.guardar(jugador);
+            response.put("jugador",jugador);
+            response.put("mensaje","Has subido correctamente la imagen: "+ nombreArchivo);
+
+        }
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/uploads/img/{nombreFoto:.+}")
+    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
+
+        Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+        Resource recurso= null;
+
+        try {
+            recurso= new UrlResource(rutaArchivo.toUri());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        //HttpHeaders cab= new HttpHeaders();
+        //cab.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recu.getFilename()  +"\"");
+
+        if (!recurso.exists() && !recurso.isReadable()) {
+            rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no_equipo.png").toAbsolutePath();
+            try {
+                recurso= new UrlResource(rutaArchivo.toUri());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            // throw new RuntimeException("Error no se pudo cargar la imagen: "+ nombreFoto);
+        }
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename()  +"\"");
+        return new ResponseEntity<Resource>(recurso, cabecera,  HttpStatus.OK);
+
+    }
+
+
 }

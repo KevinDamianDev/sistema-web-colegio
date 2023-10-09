@@ -2,7 +2,6 @@ package com.eventos.deportivos.backend.models.controller;
 
 import com.eventos.deportivos.backend.models.entity.Categoria;
 import com.eventos.deportivos.backend.models.entity.Evento;
-import com.eventos.deportivos.backend.models.service.CategoriaServiceImpl;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
 import com.eventos.deportivos.backend.models.service.ServiceUnoAMuchos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {

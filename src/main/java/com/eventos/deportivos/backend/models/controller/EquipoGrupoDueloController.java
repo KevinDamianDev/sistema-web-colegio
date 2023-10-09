@@ -1,6 +1,8 @@
 package com.eventos.deportivos.backend.models.controller;
 
-import com.eventos.deportivos.backend.models.entity.*;
+import com.eventos.deportivos.backend.models.entity.Duelo;
+import com.eventos.deportivos.backend.models.entity.EquipoGrupo;
+import com.eventos.deportivos.backend.models.entity.EquipoGrupoDuelo;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
 import com.eventos.deportivos.backend.models.service.ServiceEntityExisteDato;
 import org.springframework.beans.factory.annotation.Autowired;

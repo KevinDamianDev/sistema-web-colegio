@@ -13,6 +13,7 @@ public class Equipo implements Serializable {
     private Long idEquipo;
 
     private String nombreEquipo;
+    private String foto;
 
     public Long getIdEquipo() {
         return idEquipo;
@@ -28,5 +29,13 @@ public class Equipo implements Serializable {
 
     public void setNombreEquipo(String nombreEquipo) {
         this.nombreEquipo = nombreEquipo;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

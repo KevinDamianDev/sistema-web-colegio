@@ -1,6 +1,5 @@
 package com.eventos.deportivos.backend.models.service;
 
-import com.eventos.deportivos.backend.models.dao.IPersonaDao;
 import com.eventos.deportivos.backend.models.dao.IPersonaRolDao;
 import com.eventos.deportivos.backend.models.entity.PersonaRol;
 import org.springframework.beans.factory.annotation.Autowired;

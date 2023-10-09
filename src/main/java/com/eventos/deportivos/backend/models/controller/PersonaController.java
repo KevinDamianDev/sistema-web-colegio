@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/personas")
 public class PersonaController {
@@ -42,7 +42,7 @@ public class PersonaController {
         return personaService.listar();
     }
 
-    @GetMapping("/{id}")
+   @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id ) {
 
         Persona persona = null;
@@ -112,16 +112,16 @@ public class PersonaController {
 
 
         if (actual== null) {
-            response.put("mensaje", "Error: no se pudo ediar a la persona ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
+            response.put("mensaje", "Error: no se pudo editar a la persona ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
             return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
         }
 
         try {
             actual.setNombrePersona(persona.getNombrePersona());
             actual.setApellidosPersonas(persona.getApellidosPersonas());
-            actual.setCoreoPersona(persona.getCoreoPersona());
+            actual.setCorreoPersona(persona.getCorreoPersona());
             actual.setDniPersona(persona.getDniPersona());
-            actual.setEstadoPersona(persona.isEstadoPersona());
+            actual.setEstadoPersona(persona.getEstadoPersona());
             actual.setFechaNacPersona(persona.getFechaNacPersona());
             actual.setPasswordPersona(persona.getPasswordPersona());
             actual.setPasswordPersona(persona.getPasswordPersona());

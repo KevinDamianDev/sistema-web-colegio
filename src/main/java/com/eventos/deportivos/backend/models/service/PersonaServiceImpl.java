@@ -2,7 +2,6 @@ package com.eventos.deportivos.backend.models.service;
 
 import com.eventos.deportivos.backend.models.dao.IPersonaDao;
 import com.eventos.deportivos.backend.models.entity.Persona;
-import com.eventos.deportivos.backend.models.entity.Rol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

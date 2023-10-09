@@ -1,5 +1,6 @@
 package com.eventos.deportivos.backend.models.dao;
 
+import com.eventos.deportivos.backend.models.entity.Categoria;
 import com.eventos.deportivos.backend.models.entity.Equipo;
 import com.eventos.deportivos.backend.models.entity.Evento;
 import com.eventos.deportivos.backend.models.entity.Fase;

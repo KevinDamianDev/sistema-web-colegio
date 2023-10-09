@@ -19,6 +19,7 @@ public class Jugador implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaNJugador;
     private int dorsalJugador;
+    private String foto;
 
     public Long getIdJugador() {
         return idJugador;
@@ -54,6 +55,14 @@ public class Jugador implements Serializable {
 
     public int getDorsalJugador() {
         return dorsalJugador;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public void setDorsalJugador(int dorsalJugador) {
