@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @Qualifier("duelo")
-public class DueloServiceImpl implements ServiceEntity<Duelo, Long> , ServiceUnoAMuchos<Duelo, Long>{
+public class DueloServiceImpl implements ServiceEntity<Duelo, Long> , ServiceUnoAMuchos<Duelo, Long>, ServiceEntityEntity<Duelo, Long>{
 
     @Autowired
     private IDueloDao dueloDao;
@@ -47,5 +47,10 @@ public class DueloServiceImpl implements ServiceEntity<Duelo, Long> , ServiceUno
     @Override
     public List<Duelo> listarEntitysByEntity(Long id) {
         return fechaDao.findDueloByFecha(id);
+    }
+
+    @Override
+    public List<Duelo> listarByEntity(Long id) {
+        return dueloDao.findDuelosByFaseId(id);
     }
 }

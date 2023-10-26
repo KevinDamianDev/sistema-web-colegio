@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @Qualifier("equipogrupoduelo")
 public class EquipoGrupoDueloServiceImpl implements ServiceEntity<EquipoGrupoDuelo, Long>, ServiceEntityExisteDato<EquipoGrupoDuelo, Long>
-, ServiceUnoAMuchos<EquipoGrupoDuelo, Long>{
+, ServiceUnoAMuchos<EquipoGrupoDuelo, Long>, ServiceEntityEntity<EquipoGrupoDuelo, Long>{
 
     @Autowired
     private IEquipoGrupoDueloDao iEquipoGrupoDueloDao;
@@ -39,7 +39,7 @@ public class EquipoGrupoDueloServiceImpl implements ServiceEntity<EquipoGrupoDue
 
     @Override
     public EquipoGrupoDuelo porId(Long id) {
-        return null;
+        return iEquipoGrupoDueloDao.findById(id).orElse(null);
     }
 
     @Override
@@ -50,5 +50,10 @@ public class EquipoGrupoDueloServiceImpl implements ServiceEntity<EquipoGrupoDue
     @Override
     public List<EquipoGrupoDuelo> listarEntitysByEntity(Long id) {
         return iEquipoGrupoDueloDao.findEquipoGrupoDueloByIdDuelo(id);
+    }
+
+    @Override
+    public List<EquipoGrupoDuelo> listarByEntity(Long id) {
+        return iEquipoGrupoDueloDao.findEquipoGrupoDueloByFase(id);
     }
 }

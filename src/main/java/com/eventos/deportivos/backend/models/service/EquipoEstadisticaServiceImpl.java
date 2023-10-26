@@ -11,7 +11,8 @@ import java.util.List;
 
 @Service
 @Qualifier("equipoestadistica")
-public class EquipoEstadisticaServiceImpl implements ServiceEntity<EquipoEstadistica, Long>, ServiceEntityEntity<EquipoEstadistica, Long>{
+public class EquipoEstadisticaServiceImpl implements ServiceEntity<EquipoEstadistica, Long>,
+        ServiceEntityEntity<EquipoEstadistica, Long>, ServiceUnoAMuchos<EquipoEstadistica, Long>{
 
     @Autowired
     private IEquipoEstadisticaDao dao;
@@ -47,5 +48,10 @@ public class EquipoEstadisticaServiceImpl implements ServiceEntity<EquipoEstadis
     @Override
     public List<EquipoEstadistica> listarByEntity(Long id) {
         return grupoDao.findByGrupoId(id);
+    }
+
+    @Override
+    public List<EquipoEstadistica> listarEntitysByEntity(Long id) {
+        return dao.getEquipoEstadisticaByEquipo(id);
     }
 }

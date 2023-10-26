@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -28,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/equipos")

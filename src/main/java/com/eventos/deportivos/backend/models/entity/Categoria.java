@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "categorias")
+@Table(name = "categoria")
 public class Categoria implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

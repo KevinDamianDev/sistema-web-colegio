@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 @Entity
-@Table(name = "equipos_estadisticas")
+@Table(name = "equipo_estadistica")
 public class EquipoEstadistica implements Serializable {
     private static final long serialVersionUID =1L;
 
@@ -20,6 +20,8 @@ public class EquipoEstadistica implements Serializable {
     private int perdidos;
     private int golesFavor;
     private int golesContra;
+    private int diferenciaGoles;
+    private int penales;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idEquipoGrupo")
@@ -96,5 +98,21 @@ public class EquipoEstadistica implements Serializable {
 
     public void setEquipoGrupo(EquipoGrupo equipoGrupo) {
         this.equipoGrupo = equipoGrupo;
+    }
+
+    public int getDiferenciaGoles() {
+        return diferenciaGoles;
+    }
+
+    public void setDiferenciaGoles(int diferenciaGoles) {
+        this.diferenciaGoles = diferenciaGoles;
+    }
+
+    public int getPenales() {
+        return penales;
+    }
+
+    public void setPenales(int penales) {
+        this.penales = penales;
     }
 }

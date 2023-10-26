@@ -1,9 +1,11 @@
 package com.eventos.deportivos.backend.models.controller;
 
 import com.eventos.deportivos.backend.models.entity.Equipo;
+import com.eventos.deportivos.backend.models.entity.EquipoGrupo;
 import com.eventos.deportivos.backend.models.entity.EquipoJugador;
 import com.eventos.deportivos.backend.models.entity.Jugador;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceEntityEntity;
 import com.eventos.deportivos.backend.models.service.ServiceEntityExisteDato;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/equipojugador")
 public class EquipoJugadorController {
@@ -23,6 +25,10 @@ public class EquipoJugadorController {
     @Autowired
     @Qualifier("equipojugador")
     private ServiceEntity<EquipoJugador, Long> equipoJugadorService;
+
+    @Autowired
+    @Qualifier("equipojugador")
+    private ServiceEntityEntity<EquipoJugador, Long> equipoJugadorServiceServiceEntity;
 
     @Autowired
     @Qualifier("equipo")
@@ -36,16 +42,18 @@ public class EquipoJugadorController {
     @Qualifier("equipojugador")
     private ServiceEntityExisteDato<EquipoJugador, Long> equipoJugadorService2;
 
+
+
     @GetMapping("/")
     public List<EquipoJugador> getEquipoJugador() {
         return equipoJugadorService.listar();
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> crear(@RequestBody Map<String, Long> requestBody) {
+    public ResponseEntity<?> crear(@RequestBody EquipoJugador equipoJugadorN) {
 
-        Long idEquipo= requestBody.get("idEquipo");
-        Long idJugador = requestBody.get("idJugador");
+        Long idEquipo= equipoJugadorN.getEquipo().getIdEquipo();
+        Long idJugador = equipoJugadorN.getJugador().getIdJugador();
         System.out.println("************idJugador: **********" + idJugador);
         System.out.println("*************idEquipo: *********" + idEquipo);
 
@@ -58,7 +66,7 @@ public class EquipoJugadorController {
             equipo = equipoService.porId(idEquipo);
 
         }catch (DataAccessException e){
-            response.put("mensaje", "Error al realizar la inserccion en la base de datos." );
+            response.put("mensaje", "Error al realizar la inserccion en la base de datos jugador / eqiopo." );
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -92,45 +100,50 @@ public class EquipoJugadorController {
     }
 
 
-    @DeleteMapping("/")
-    public ResponseEntity<?> eliminar( @RequestBody Map<String, Long> requestBody) {
-        Long idJugador = requestBody.get("idJugador");
-        Long idEquipo= requestBody.get("idEquipo");
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
 
-        Jugador jugador;
-        Equipo equipo;
         Map<String, Object> response = new HashMap<>();
 
         try {
-            jugador = jugadorService.porId(idJugador);
-            equipo = equipoService.porId(idEquipo);
+            EquipoJugador ej = equipoJugadorService.porId(id);
+            if (ej != null) {
+                equipoJugadorService.eliminar(ej.getIdEquipoJugador());
+                response.put("mensaje", "El jugador se ha eliminado del equipo." );
+                return new ResponseEntity<Map<String, Object> > (response, HttpStatus.OK);
+            }
 
         }catch (DataAccessException e){
             response.put("mensaje", "Error al realizar la inserccion en la base de datos." );
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if(equipo == null) {
-            response.put("mensaje", "El equipo no existe en la base de datos." );
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        response.put("mensaje", "No se encontro el registro para eliminar.");
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+    }
+
+    // EQUIPOS_JUGADORES QUE TIENE UN EQUIPO
+    @GetMapping("equipos/{id}")
+    public  ResponseEntity<?>equipoGrupoByFase(@PathVariable Long id ) {
+
+        List<EquipoJugador> listaEquiposJugadores;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            listaEquiposJugadores = equipoJugadorServiceServiceEntity.listarByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if(jugador == null) {
-            response.put("mensaje", "El jugador no existe en la base de datos." );
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        if (listaEquiposJugadores== null || listaEquiposJugadores.isEmpty()) {
+            response.put("mensaje", "No hay jugadores para el equipo.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
         }
-
-        EquipoJugador equipoJugador = new EquipoJugador();
-        equipoJugador = equipoJugadorService2.existeRegistro(idEquipo, idJugador);
-
-        if (equipoJugador != null) {
-            equipoJugadorService.eliminar(equipoJugador.getIdEquipoJugador());
-
-            response.put("mensaje", "El jugador se ha eliminado del equipo." );
-            return new ResponseEntity<Map<String, Object> > (response, HttpStatus.OK);
-        }
-        response.put("mensaje", "No existe jugador a eliminar del equipo." );
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-
+        return new ResponseEntity<>(listaEquiposJugadores, HttpStatus.OK);
     }
 
 }

@@ -15,4 +15,9 @@ public interface IPersonaDao extends CrudRepository<Persona, Long> {
 
     @Query("SELECT pr.evento FROM PersonaEvento pr WHERE pr.persona.idPersona = :id")
     List<Evento> findEventoByPersonaId(@Param("id") Long id);
+
+    @Query("SELECT u from Persona u where u.usuarioPersona = ?1")
+    public Persona findByUserName(String usuarioPersona);
+
+
 }

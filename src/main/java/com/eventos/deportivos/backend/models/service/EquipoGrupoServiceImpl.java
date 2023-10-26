@@ -10,7 +10,8 @@ import java.util.List;
 
 @Service
 @Qualifier("equipogrupo")
-public class EquipoGrupoServiceImpl implements ServiceEntity<EquipoGrupo, Long>, ServiceEntityExisteDato<EquipoGrupo, Long> {
+public class EquipoGrupoServiceImpl implements ServiceEntity<EquipoGrupo, Long>, ServiceEntityExisteDato<EquipoGrupo, Long>,
+ServiceEntityEntity<EquipoGrupo, Long>, ServiceEquipoGrupo<EquipoGrupo, Long>{
 
     @Autowired
     private IEquipoGrupoDao equipoGrupoDao;
@@ -45,4 +46,13 @@ public class EquipoGrupoServiceImpl implements ServiceEntity<EquipoGrupo, Long>,
         return  equipoGrupoDao.findById(id).orElse(null);
     }
 
+    @Override
+    public List<EquipoGrupo> listarByEntity(Long id) {
+        return equipoGrupoDao.getEquipoGrupoByFase(id);
+    }
+
+    @Override
+    public List<EquipoGrupo> listarEquipoByGrupo(Long id) {
+        return equipoGrupoDao.getEquipoGrupoByGrupo(id);
+    }
 }

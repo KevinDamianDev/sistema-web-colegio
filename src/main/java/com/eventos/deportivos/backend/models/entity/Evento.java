@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "eventos")
+@Table(name = "evento")
 public class Evento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

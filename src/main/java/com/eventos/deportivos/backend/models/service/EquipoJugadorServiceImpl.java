@@ -10,7 +10,8 @@ import java.util.List;
 
 @Service
 @Qualifier("equipojugador")
-public class EquipoJugadorServiceImpl implements ServiceEntity<EquipoJugador, Long>, ServiceEntityExisteDato<EquipoJugador, Long> {
+public class EquipoJugadorServiceImpl implements ServiceEntity<EquipoJugador, Long>,
+        ServiceEntityExisteDato<EquipoJugador, Long>, ServiceEntityEntity<EquipoJugador, Long> {
 
     @Autowired
     private IEquipoJugadorDao equipoJugadorDao;
@@ -44,5 +45,10 @@ public class EquipoJugadorServiceImpl implements ServiceEntity<EquipoJugador, Lo
     @Override
     public EquipoJugador porId(Long id) {
         return equipoJugadorDao.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<EquipoJugador> listarByEntity(Long id) {
+        return equipoJugadorDao.getEquipoJugadorByEquipo(id);
     }
 }

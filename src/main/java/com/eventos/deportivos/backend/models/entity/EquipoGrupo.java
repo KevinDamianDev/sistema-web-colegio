@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "equipos_grupos")
+@Table(name = "equipo_grupo")
 public class EquipoGrupo implements Serializable {
 
     private static final long serialVersionUID =1L;
@@ -23,6 +23,11 @@ public class EquipoGrupo implements Serializable {
     @JoinColumn(name = "idGrupo")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Grupo grupo;
+
+    @OneToOne(mappedBy = "equipoGrupo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idEquipoGrupo")
+    private EquipoEstadistica equipoEstadistica;
+
 
     public Long getIdEquipoGrupo() {
         return idEquipoGrupo;

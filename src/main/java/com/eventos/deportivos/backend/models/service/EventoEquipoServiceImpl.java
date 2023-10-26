@@ -38,7 +38,7 @@ public class EventoEquipoServiceImpl implements ServiceEntity<EventoEquipo, Long
 
     @Override
     public EventoEquipo porId(Long id) {
-        return null;
+        return eventoEquipoDao.findById(id).orElse(null);
     }
 
     @Override

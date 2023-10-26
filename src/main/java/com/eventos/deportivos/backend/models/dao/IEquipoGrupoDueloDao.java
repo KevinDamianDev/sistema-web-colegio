@@ -13,4 +13,9 @@ public interface IEquipoGrupoDueloDao extends CrudRepository<EquipoGrupoDuelo, L
 
     @Query("SELECT egd FROM EquipoGrupoDuelo egd WHERE egd.duelo.idDuelo = :idDuelo")
     List<EquipoGrupoDuelo> findEquipoGrupoDueloByIdDuelo (@Param("idDuelo") Long idDuelo);
+
+    // LISTA LOS EQUIPOS GRUPOS DUELOS DE UNA FASE
+    @Query("SELECT egd FROM EquipoGrupoDuelo egd WHERE egd.equipoGrupo.grupo.fase.idFase= :idFase")
+    List<EquipoGrupoDuelo> findEquipoGrupoDueloByFase (@Param("idFase") Long idFase);
+
 }

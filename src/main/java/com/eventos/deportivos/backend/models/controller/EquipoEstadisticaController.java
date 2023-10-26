@@ -1,7 +1,9 @@
 package com.eventos.deportivos.backend.models.controller;
 
 import com.eventos.deportivos.backend.models.entity.EquipoEstadistica;
+import com.eventos.deportivos.backend.models.entity.EquipoGrupo;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceUnoAMuchos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -9,13 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/equipoEstadisticas")
 public class EquipoEstadisticaController {
@@ -23,6 +25,11 @@ public class EquipoEstadisticaController {
     @Autowired
     @Qualifier("equipoestadistica")
     private ServiceEntity<EquipoEstadistica, Long> equipoEstadisticaService;
+
+    @Autowired
+    @Qualifier("equipoestadistica")
+    private ServiceUnoAMuchos<EquipoEstadistica, Long> equipoEstadisticaServiceUnoMuchos;
+
 
     @GetMapping("/")
     public List<EquipoEstadistica> getEquipoEstadistica() {
@@ -114,6 +121,8 @@ public class EquipoEstadisticaController {
             actual.setJugados(equipoEstadistica.getJugados());
             actual.setPerdidos(equipoEstadistica.getPerdidos());
             actual.setPuntos(equipoEstadistica.getPuntos());
+            actual.setDiferenciaGoles(equipoEstadistica.getDiferenciaGoles());
+            actual.setPenales(equipoEstadistica.getPenales());
             nuevo = equipoEstadisticaService.guardar(actual);
 
         } catch (DataAccessException e) {
@@ -148,5 +157,29 @@ public class EquipoEstadisticaController {
 
         response.put("mensaje", "No se encontro estadisticas para eliminar.");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    // ESTADISTICAS QUE TIENE UN EQUIPOS_GRUPOS
+    @GetMapping("equipos/{id}")
+    public  ResponseEntity<?>estadisticaByEquipo(@PathVariable Long id ) {
+
+        List<EquipoEstadistica> listaEquiposEstadisticas;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            listaEquiposEstadisticas = equipoEstadisticaServiceUnoMuchos.listarEntitysByEntity(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (listaEquiposEstadisticas== null || listaEquiposEstadisticas.isEmpty()) {
+            response.put("mensaje", "No hay estadisticas para el equipo.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(listaEquiposEstadisticas, HttpStatus.OK);
     }
 }

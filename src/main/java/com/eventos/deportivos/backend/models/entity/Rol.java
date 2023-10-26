@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 
-@Table(name = "roles")
+@Table(name = "rol")
 @Entity
 public class Rol implements Serializable {
     private static final long serialVersionUID = 1L;

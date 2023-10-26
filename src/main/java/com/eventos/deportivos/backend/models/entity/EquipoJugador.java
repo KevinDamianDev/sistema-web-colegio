@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 @Entity
-@Table(name = "equipos_jugadores")
+@Table(name = "equipo_jugador")
 public class EquipoJugador implements Serializable {
     private static final long serialVersionUID =1L;
 

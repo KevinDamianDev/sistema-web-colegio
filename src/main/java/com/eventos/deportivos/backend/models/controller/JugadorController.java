@@ -84,7 +84,7 @@ public class JugadorController {
         try {
             jugadorNuevo = jugadorService.guardar(jugador);
         }catch (DataAccessException e){
-            response.put("mensaje", "Error al realizar la inserccion en la base de datos." );
+            response.put("mensaje", "Error al realizar la inserccion en la base de datos jugador." );
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

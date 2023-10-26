@@ -16,8 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/eventoequipo")
+@RequestMapping("/eventoEquipos")
 public class EventoEquipoController {
 
     @Autowired
@@ -36,18 +37,37 @@ public class EventoEquipoController {
     @Qualifier("eventoequipo")
     private ServiceEntityExisteDato<EventoEquipo, Long> eventoEquipoService2;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> show(@PathVariable Long id ) {
+
+        EventoEquipo eventoEquipo;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            eventoEquipo = eventoEquipoService.porId(id);
+
+        } catch ( DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (eventoEquipo== null) {
+            response.put("mensaje", "El registro no existe en la base de datos.");
+            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<EventoEquipo> (eventoEquipo, HttpStatus.OK);
+    }
+
     @GetMapping("/")
     public List<EventoEquipo> getEventoEquipo() {
         return eventoEquipoService.listar();
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> crear(@RequestBody Map<String, Long> requestBody) {
-
-        Long idEvento = requestBody.get("idEvento");
-        Long idEquipo= requestBody.get("idEquipo");
-        System.out.println("************idEvento: **********" + idEvento);
-        System.out.println("*************idEquipo: *********" + idEquipo);
+    public ResponseEntity<?> crear(@RequestBody EventoEquipo eventoEquipoN)  {
+        Long idEvento = eventoEquipoN.getEvento().getIdEvento();
+        Long idEquipo= eventoEquipoN.getEquipo().getIdEquipo();
 
         Evento evento= null;
         Equipo equipo= null;
@@ -87,20 +107,24 @@ public class EventoEquipoController {
         EventoEquipo nuevo = eventoEquipoService.guardar(eventoEquipoNuevo);
 
         response.put("mensaje", "Equipo "+ nuevo.getEquipo().getNombreEquipo() + " asignado al evento "+ nuevo.getEvento().getNombreEvento());
-        response.put("EventoEquipo", nuevo);
+        response.put("eventoEquipo", nuevo);
         return new ResponseEntity<Map<String, Object> > (response, HttpStatus.CREATED);
 
     }
 
 
     @DeleteMapping("/")
-    public ResponseEntity<?> eliminar( @RequestBody Map<String, Long> requestBody) {
-        Long idEvento = requestBody.get("idEvento");
-        Long idEquipo= requestBody.get("idEquipo");
+    public ResponseEntity<?> eliminar(@RequestBody EventoEquipo eventoEquipoN) {
+
+        Long idEvento = eventoEquipoN.getEvento().getIdEvento();
+        Long idEquipo= eventoEquipoN.getEquipo().getIdEquipo();
 
         Evento evento= null;
         Equipo equipo= null;
         Map<String, Object> response = new HashMap<>();
+        //EventoEquipo eventoEquipo1 = null;
+
+      //  eventoEquipo1 = eventoEquipoService.porId()
 
         try {
             evento = eventoService.porId(idEvento);

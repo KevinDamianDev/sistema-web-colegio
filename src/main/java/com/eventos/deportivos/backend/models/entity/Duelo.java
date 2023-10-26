@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "duelos")
+@Table(name = "duelo")
 public class Duelo implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -21,6 +21,8 @@ public class Duelo implements Serializable {
     private Date fechaDuelo;
 
     private String lugarDuelo;
+
+    private String estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idFecha")
@@ -65,5 +67,13 @@ public class Duelo implements Serializable {
 
     public void setLugarDuelo(String lugarDuelo) {
         this.lugarDuelo = lugarDuelo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

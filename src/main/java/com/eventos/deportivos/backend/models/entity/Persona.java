@@ -7,11 +7,13 @@ import javax.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "personas")
-public class Persona implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name = "persona")
+public class Persona  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +35,23 @@ public class Persona implements Serializable {
     private String correoPersona;
     @Column(nullable = false, unique = true)
     private String usuarioPersona;
+    @Column(length = 60)
     private String passwordPersona;
-    private String estadoPersona;
+    private boolean estadoPersona;
+
+
+        @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+        @JoinTable(name ="usuarios_roles" , joinColumns = @JoinColumn(name = "usuario_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id", "role_id"})})
+        private Set<Rol> roles = new HashSet<>();
+
+    public Set<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
+    }
 
     public Long getIdPersona() {
         return idPersona;
@@ -100,11 +117,11 @@ public class Persona implements Serializable {
         this.passwordPersona = passwordPersona;
     }
 
-    public String getEstadoPersona() {
+    public boolean isEstadoPersona() {
         return estadoPersona;
     }
 
-    public void setEstadoPersona(String estadoPersona) {
+    public void setEstadoPersona(boolean estadoPersona) {
         this.estadoPersona = estadoPersona;
     }
 }

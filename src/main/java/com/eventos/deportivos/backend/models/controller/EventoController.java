@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +66,7 @@ public class EventoController {
 
 
     @PostMapping("/")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> crear(@Valid @RequestBody Evento evento , BindingResult result) {
 
         Evento eventoNuevo= null;
@@ -78,10 +80,6 @@ public class EventoController {
             response.put("errors", error);
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
         }
-       /* if (eventoService.nombreExiste(evento.getNombreEvento())){
-            response.put("mensaje", "El nombre evento ya existe en la base de datos." );
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-        }*/
 
         try {
             eventoNuevo = eventoService.guardar(evento);
@@ -98,6 +96,7 @@ public class EventoController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> update(@Valid @RequestBody Evento evento, BindingResult result, @PathVariable Long id) {
 
         Evento actual = eventoService.porId(id);
@@ -118,10 +117,6 @@ public class EventoController {
             response.put("mensaje", "Error: no se pudo editar el evento ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
             return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
         }
-       /* if (eventoService.nombreExiste(evento.getNombreEvento())){
-            response.put("mensaje", "El nombre evento ya existe en la base de datos." );
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-        }*/
 
         try {
             actual.setNombreEvento(evento.getNombreEvento());
@@ -140,6 +135,7 @@ public class EventoController {
     }
 
     @DeleteMapping("/{id}")
+   @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> delete (@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
 
