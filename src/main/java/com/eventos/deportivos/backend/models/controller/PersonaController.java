@@ -107,8 +107,61 @@ public class PersonaController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
-
     @PutMapping("/{id}")
+    //@Secured({"ROLE_ADMIN"})
+    public ResponseEntity<?> update(@Valid @RequestBody Persona persona, BindingResult result, @PathVariable Long id) {
+
+        Persona actual = personaService.porId(id);
+        Persona nuevo = null;
+        Map<String, Object> response = new HashMap<>();
+
+        if (result.hasErrors()) {
+            List<String> error = result.getFieldErrors()
+                    .stream()
+                    .map(er -> "El campo '" + er.getField() + "' " + er.getDefaultMessage())
+                    .collect(Collectors.toList());
+            response.put("errors", error);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        if (actual == null) {
+            response.put("mensaje", "Error: no se pudo editar a la persona ID: " + id + " ya que no existe en los registros.");
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            actual.setNombrePersona(persona.getNombrePersona());
+            actual.setApellidosPersonas(persona.getApellidosPersonas());
+            actual.setCorreoPersona(persona.getCorreoPersona());
+            actual.setDniPersona(persona.getDniPersona());
+            actual.setEstadoPersona(persona.isEstadoPersona());
+            actual.setFechaNacPersona(persona.getFechaNacPersona());
+            actual.setPasswordPersona(persona.getPasswordPersona());
+
+            // Actualiza los roles de la persona
+            Set<Rol> roles = new HashSet<>();
+            for (Rol rol : persona.getRoles()) {
+                Rol rolAdmin = rolService.porId(rol.getIdRol());
+                roles.add(rolAdmin);
+            }
+
+            actual.setRoles(roles);
+
+            nuevo = personaService.guardar(actual);
+
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al actualizar la persona en la base de datos.");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("mensaje", "Persona actualizada con éxito");
+        response.put("persona", nuevo);
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+    }
+
+   /* @PutMapping("/{id}")
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> update(@Valid @RequestBody Persona persona, BindingResult result, @PathVariable Long id) {
 
@@ -151,7 +204,7 @@ public class PersonaController {
         response.put("persona", nuevo);
 
         return new ResponseEntity<Map<String, Object> > (response, HttpStatus.CREATED);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     @Secured({"ROLE_ADMIN"})

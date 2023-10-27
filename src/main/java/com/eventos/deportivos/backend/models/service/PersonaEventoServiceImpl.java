@@ -10,7 +10,8 @@ import java.util.List;
 
 @Service
 @Qualifier("personaevento")
-public class PersonaEventoServiceImpl implements ServiceEntity<PersonaEvento, Long> , ServiceEntityExisteDato<PersonaEvento, Long> {
+public class PersonaEventoServiceImpl implements ServiceEntity<PersonaEvento, Long> ,
+        ServiceEntityExisteDato<PersonaEvento, Long> , ServiceUnoAMuchos<PersonaEvento, Long>{
 
     @Autowired
     private IPersonaEventoDao personaEventoDao;
@@ -42,7 +43,11 @@ public class PersonaEventoServiceImpl implements ServiceEntity<PersonaEvento, Lo
     @Override
 
     public PersonaEvento porId(Long id) {
-        return null;
+        return personaEventoDao.findById(id).orElse(null);
     }
 
+    @Override
+    public List<PersonaEvento> listarEntitysByEntity(Long id) {
+        return personaEventoDao.getPersonaEventoByPersona(id);
+    }
 }
