@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,11 +31,13 @@ public class CategoriaController {
 
 
     @GetMapping("/")
+    @Secured({"ROLE_ADMIN"})
     public List<Categoria> getCategorias() {
         return categoriaService.listar();
     }
 
     @GetMapping("/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> show( @PathVariable Long id ) {
 
         Categoria categoria = null;
@@ -57,6 +60,7 @@ public class CategoriaController {
 
 
     @PostMapping("/")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> crear(@Valid @RequestBody Categoria categoria , BindingResult result) {
 
         Categoria categoriaNueva= null;
@@ -89,6 +93,7 @@ public class CategoriaController {
 
     }
     @PutMapping("/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> update(@Valid @RequestBody Categoria categoria, BindingResult result, @PathVariable Long id) {
 
         Categoria actual = categoriaService.porId(id);
@@ -130,6 +135,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> delete (@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
 
@@ -155,6 +161,7 @@ public class CategoriaController {
     // EVENTOS QUE PERTENECEN A UNA CATEGORIA
 
     @GetMapping("/eventos/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> getEventosByCategoria( @PathVariable Long id ) {
 
         List<Evento> evento= new ArrayList<>();

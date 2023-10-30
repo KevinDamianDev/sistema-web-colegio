@@ -4,6 +4,7 @@ import com.eventos.deportivos.backend.models.entity.Duelo;
 import com.eventos.deportivos.backend.models.entity.EquipoJugador;
 import com.eventos.deportivos.backend.models.entity.Gol;
 import com.eventos.deportivos.backend.models.service.ServiceEntity;
+import com.eventos.deportivos.backend.models.service.ServiceEntityEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;

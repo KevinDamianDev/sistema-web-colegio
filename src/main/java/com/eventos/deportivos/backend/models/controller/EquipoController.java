@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,11 +44,13 @@ public class EquipoController {
 
 
     @GetMapping("/")
+    @Secured({"ROLE_ADMIN"})
     public List<Equipo> getEquipo() {
         return equipoService.listar();
     }
 
     @GetMapping("/{id}")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> show(@PathVariable Long id ) {
 
         Equipo equipo = null;
@@ -71,6 +74,7 @@ public class EquipoController {
 
 
     @PostMapping("/")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> crear(@Valid @RequestBody Equipo equipo , BindingResult result) {
 
         Equipo equipoNuevo= null;
@@ -100,6 +104,7 @@ public class EquipoController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> update(@Valid @RequestBody Equipo equipo, BindingResult result, @PathVariable Long id) {
 
         Equipo actual = equipoService.porId(id);
@@ -136,6 +141,7 @@ public class EquipoController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> delete (@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
 

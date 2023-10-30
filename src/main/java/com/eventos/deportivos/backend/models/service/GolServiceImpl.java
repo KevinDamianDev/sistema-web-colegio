@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @Qualifier("gol")
-public class GolServiceImpl implements ServiceEntity<Gol, Long>,ServiceUnoAMuchos<Gol,Long>{
+public class GolServiceImpl implements ServiceEntity<Gol, Long>,ServiceUnoAMuchos<Gol,Long>, ServiceEntityEntity<Gol,Long> {
 
     @Autowired
     private IGolDao golDao;
@@ -49,5 +49,8 @@ public class GolServiceImpl implements ServiceEntity<Gol, Long>,ServiceUnoAMucho
     }
 
 
-
+    @Override
+    public List<Gol> listarByEntity(Long id) {
+        return golDao.findGolesByEventoId(id);
+    }
 }

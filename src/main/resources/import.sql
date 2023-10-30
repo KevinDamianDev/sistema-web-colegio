@@ -13,7 +13,7 @@ insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
 insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Damian', 'kevin@gmail.com', 77097355,1,'2000-01-06','kevin','$2a$10$2rIZlW8wNp4CyggFNE7WqehSpcmtzbVM/c8CPHzXQU6aT.JIQ/kYy','kevin123');
 insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Gonzales', 'samir@gmail.com', 77087559,0,'2000-01-06','Samir','$2a$10$dfnMgKf6GCAAFrn8xIJR1.dMqF7NDKGiJRzMHeibtaJ2csuKE8HQu','samir123');
 insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Maza', 'maza@gmail.com', 7799855,1,'2000-01-06','Carlos','$2a$10$K7cN06qfAaz4FaY0R8Y4N.FRjmzKZfNFSFq1HslsW7MsOkwlLIkUa','carlos123');
-insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Suarez', 'suarez@gmail.com', 77096687,1,'2000-01-06','Angel','','angel123');
+insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Suarez', 'suarez@gmail.com', 77096687,1,'2000-01-06','Angel','$2a$10$K7cN06qfAaz4FaY0R8Y4N.FRjmzKZfNFSFq1HslsW7MsOkwlLIkUa','angel123');
 
 
 
@@ -27,9 +27,9 @@ insert into persona_evento(id_persona,id_evento) values (3,1);
 
 
 insert into usuarios_roles (usuario_id,role_id) values (1,1);
---insert into usuarios_roles (usuario_id,role_id) values (1,2);
---insert into usuarios_roles (usuario_id,role_id) values (2,2);
---insert into usuarios_roles (usuario_id,role_id) values (3,2);
+insert into usuarios_roles (usuario_id,role_id) values (1,2);
+insert into usuarios_roles (usuario_id,role_id) values (2,2);
+insert into usuarios_roles (usuario_id,role_id) values (3,2);
 
 --insert into personas_eventos(id_persona,id_evento) values (1,1);
 --insert into personas_eventos(id_persona,id_evento) values (1,2);
@@ -90,9 +90,13 @@ insert into equipo_grupo_duelo(id_duelo,id_equipo_grupo) values(1,2);
 
 
 insert into gol (minuto_gol, id_duelo, id_equipo_jugador) values (5,1,1);
+
 insert into gol (minuto_gol, id_duelo, id_equipo_jugador) values (10,1,2);
+insert into gol (minuto_gol, id_duelo, id_equipo_jugador) values (11,1,2);
 
 insert into gol (minuto_gol, id_duelo, id_equipo_jugador) values (15,1,3);
+insert into gol (minuto_gol, id_duelo, id_equipo_jugador) values (50,1,3);
+insert into gol (minuto_gol, id_duelo, id_equipo_jugador) values (25,1,3);
 --insert into gol (minuto_gol, id_duelo, id_equipo_jugador) values (20,1,4);
 
 --insert into equipo_estadistica(empatados, ganados, goles_contra, goles_favor, jugados, perdidos, puntos, id_equipo_grupo) values (0,1,0,2,1,2,3,1);

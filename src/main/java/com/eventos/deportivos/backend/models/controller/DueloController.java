@@ -47,6 +47,7 @@ public class DueloController {
     }
 
     @GetMapping("/{id}")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> show(@PathVariable Long id ) {
 
         Duelo duelo;
@@ -69,6 +70,7 @@ public class DueloController {
 
 
     @PostMapping("/")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> crear(@Valid @RequestBody Duelo duelo , BindingResult result) {
 
         Duelo dueloNuevo;
@@ -98,7 +100,7 @@ public class DueloController {
     }
 
     @PutMapping("/{id}")
-    //@Secured({"ROLE_ADMIN","ROLE_USER"})
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> update(@Valid @RequestBody Duelo duelo, BindingResult result, @PathVariable Long id) {
         System.out.println("update ");
 
@@ -141,6 +143,7 @@ public class DueloController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> delete (@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
 
