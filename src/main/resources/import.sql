@@ -11,7 +11,7 @@ insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
 
 
 insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Damian', 'kevin@gmail.com', 77097355,1,'2000-01-06','kevin','$2a$10$2rIZlW8wNp4CyggFNE7WqehSpcmtzbVM/c8CPHzXQU6aT.JIQ/kYy','kevin123');
-insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Gonzales', 'samir@gmail.com', 77087559,0,'2000-01-06','Samir','$2a$10$dfnMgKf6GCAAFrn8xIJR1.dMqF7NDKGiJRzMHeibtaJ2csuKE8HQu','samir123');
+insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Gonzales', 'samir@gmail.com', 77087559,1,'2000-01-06','Samir','$2a$10$dfnMgKf6GCAAFrn8xIJR1.dMqF7NDKGiJRzMHeibtaJ2csuKE8HQu','samir123');
 insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Maza', 'maza@gmail.com', 7799855,1,'2000-01-06','Carlos','$2a$10$K7cN06qfAaz4FaY0R8Y4N.FRjmzKZfNFSFq1HslsW7MsOkwlLIkUa','carlos123');
 insert into persona ( apellidos_personas, correo_persona, dni_persona, estado_persona, fecha_nac_persona,nombre_persona, password_persona,usuario_persona) values ('Suarez', 'suarez@gmail.com', 77096687,1,'2000-01-06','Angel','$2a$10$K7cN06qfAaz4FaY0R8Y4N.FRjmzKZfNFSFq1HslsW7MsOkwlLIkUa','angel123');
 
@@ -79,9 +79,16 @@ insert into grupo (nombre_grupo, id_fase) values ('Grupo B',1);
 
 insert into equipo_grupo(id_equipo, id_grupo) values(1,1);
 insert into equipo_grupo(id_equipo, id_grupo) values(2,1);
-
 insert into equipo_grupo(id_equipo, id_grupo) values(3,2);
 insert into equipo_grupo(id_equipo, id_grupo) values(4,2);
+
+insert into equipo_estadistica(puntos, jugados, ganados, empatados,perdidos,goles_favor,goles_contra,diferencia_goles,penales,id_equipo_grupo) values(0,0,0,0,0,0,0,0,0,1);
+insert into equipo_estadistica(puntos, jugados, ganados, empatados,perdidos,goles_favor,goles_contra,diferencia_goles,penales,id_equipo_grupo) values(0,0,0,0,0,0,0,0,0,2);
+insert into equipo_estadistica(puntos, jugados, ganados, empatados,perdidos,goles_favor,goles_contra,diferencia_goles,penales,id_equipo_grupo) values(0,0,0,0,0,0,0,0,0,3);
+insert into equipo_estadistica(puntos, jugados, ganados, empatados,perdidos,goles_favor,goles_contra,diferencia_goles,penales,id_equipo_grupo) values(0,0,0,0,0,0,0,0,0,4);
+
+
+
 
 insert into equipo_grupo_duelo(id_duelo,id_equipo_grupo) values(1,1);
 insert into equipo_grupo_duelo(id_duelo,id_equipo_grupo) values(1,2);

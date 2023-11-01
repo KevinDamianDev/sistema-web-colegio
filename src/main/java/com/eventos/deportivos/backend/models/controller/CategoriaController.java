@@ -25,9 +25,9 @@ public class CategoriaController {
     @Qualifier("categoria")
     private ServiceEntity<Categoria, Long> categoriaService;
 
-    @Autowired
+  /*  @Autowired
     @Qualifier("evento")
-    private ServiceUnoAMuchos<Evento, Long> eventoService;
+    private ServiceUnoAMuchos<Evento, Long> eventoService;*/
 
 
     @GetMapping("/")
@@ -160,7 +160,7 @@ public class CategoriaController {
 
     // EVENTOS QUE PERTENECEN A UNA CATEGORIA
 
-    @GetMapping("/eventos/{id}")
+   /* @GetMapping("/eventos/{id}")
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> getEventosByCategoria( @PathVariable Long id ) {
 
@@ -190,5 +190,5 @@ public class CategoriaController {
 
         }
         return new ResponseEntity<>(evento, HttpStatus.OK);
-    }
+    }*/
 }

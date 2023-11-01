@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @Qualifier("evento")
-public  class EventoServiceImpl implements ServiceEntity<Evento, Long>, ServiceEntityEntity<Evento, Long>, ServiceUnoAMuchos<Evento, Long>{
+public  class EventoServiceImpl implements ServiceEntity<Evento, Long>, ServiceEntityEntity<Evento, Long>{
 
     @Autowired
     private IEventoDao eventoDao;
@@ -57,9 +57,9 @@ public  class EventoServiceImpl implements ServiceEntity<Evento, Long>, ServiceE
     public List<Evento> listarByEntity(Long id) {
         return personaDao.findEventoByPersonaId(id);
     }
-    // MUESTRA LOS EVENTOS QUE PERTENECEN A UNA CATEGORIA
-    @Override
+
+   /* @Override
     public List<Evento> listarEntitysByEntity(Long id) {
         return categoriaDao.findByCategoria(id);
-    }
+    }*/
 }

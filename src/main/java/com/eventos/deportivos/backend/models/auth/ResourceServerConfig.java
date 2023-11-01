@@ -20,9 +20,18 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/eventos/", "/eventos/**","/images/*",
-                        "/fases/**","/fechas/**", "/equipogrupos/**", "/grupos/**", "/equipoEstadisticas/**",
-                        "/equipojugador/**","/equipos/**","/equipogrupoduelos/**","/duelos/**")
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/eventos/", "/eventos/**",
+                        "/images/*",
+                        "/fases/{id}", "/fases/fechas/{id}","/fases/grupos/{id}",
+                        "/fechas/**",
+                        "/equipogrupos/**",
+                        "/grupos/**",
+                        "/equipoEstadisticas/**",
+                        "/equipojugador/**",
+                        "/equipos/{id}",  "/equipos/uploads/**",
+                        "/jugadores/uploads/**",
+                        "/equipogrupoduelos/**",
+                        "/duelos/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource());

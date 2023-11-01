@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,15 +36,15 @@ public class PersonaController {
     @Qualifier("evento")
     private ServiceEntityEntity<Evento, Long> eventoService;
 
+    @Autowired
+    private BCryptPasswordEncoder bcryptPasswordEncoder;
 
     @GetMapping("/")
-    //@Secured({"ROLE_ADMIN","ROLE_USER"})
     public List<Persona> getPersonas() {
         return personaService.listar();
     }
 
-   @GetMapping("/{id}")
-   //@Secured({"ROLE_ADMIN"})
+    @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id ) {
 
         Persona persona = null;
@@ -68,7 +69,6 @@ public class PersonaController {
 
 
     @PostMapping("/")
-//@Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> crear(@Valid @RequestBody Persona persona, BindingResult result) {
         Persona personaNueva = null;
         Map<String, Object> response = new HashMap<>();
@@ -83,6 +83,12 @@ public class PersonaController {
         }
 
         try {
+            String password = persona.getPasswordPersona();
+            System.out.println("password al crear persona, sin encriptar : " + password);
+            String passwordBcrypt = bcryptPasswordEncoder.encode(password);
+            System.out.println("password al crear persona, encriptada : " + passwordBcrypt);
+            persona.setPasswordPersona(passwordBcrypt);
+
             // Guarda la persona en la base de datos
             personaNueva = personaService.guardar(persona);
 
@@ -108,7 +114,6 @@ public class PersonaController {
     }
 
     @PutMapping("/{id}")
-    //@Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> update(@Valid @RequestBody Persona persona, BindingResult result, @PathVariable Long id) {
 
         Persona actual = personaService.porId(id);
@@ -161,50 +166,6 @@ public class PersonaController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
-   /* @PutMapping("/{id}")
-    @Secured({"ROLE_ADMIN"})
-    public ResponseEntity<?> update(@Valid @RequestBody Persona persona, BindingResult result, @PathVariable Long id) {
-
-        Persona actual = personaService.porId(id);
-        Persona nuevo= null;
-        Map<String, Object> response = new HashMap<>();
-        //---------------MANEJO DE ERRORES--------
-        if (result.hasErrors()) {
-            List<String> error = result.getFieldErrors()
-                    .stream()
-                    .map(er -> "El campo '" + er.getField() + "' "+ er.getDefaultMessage())
-                    .collect(Collectors.toList());
-            response.put("errors", error);
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-        }
-
-
-        if (actual== null) {
-            response.put("mensaje", "Error: no se pudo editar a la persona ID: ".concat(id.toString().concat(" ya que no existe en los registros.")) );
-            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
-        }
-
-        try {
-            actual.setNombrePersona(persona.getNombrePersona());
-            actual.setApellidosPersonas(persona.getApellidosPersonas());
-            actual.setCorreoPersona(persona.getCorreoPersona());
-            actual.setDniPersona(persona.getDniPersona());
-            actual.setEstadoPersona(persona.isEstadoPersona());
-            actual.setFechaNacPersona(persona.getFechaNacPersona());
-            actual.setPasswordPersona(persona.getPasswordPersona());
-            actual.setPasswordPersona(persona.getPasswordPersona());
-            nuevo = personaService.guardar(actual);
-
-        } catch (DataAccessException e) {
-            response.put("mensaje", "Error al actualizar la persona en la base de datos." );
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.put("mensaje", "Persona actualizada con exito");
-        response.put("persona", nuevo);
-
-        return new ResponseEntity<Map<String, Object> > (response, HttpStatus.CREATED);
-    }*/
 
     @DeleteMapping("/{id}")
     @Secured({"ROLE_ADMIN"})
@@ -230,29 +191,7 @@ public class PersonaController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /*// ROLES QUE TIENE UNA PERSONA
-    @GetMapping("rol/{id}")
-    @Secured({"ROLE_ADMIN"})
-    public  ResponseEntity<?> rolesPersona(@PathVariable Long id ) {
 
-        List<Rol> listaRoles = null;
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            listaRoles = rolService.listarByEntity(id);
-
-        } catch ( DataAccessException e) {
-            response.put("mensaje", "Error al realizar la consulta en la base de datos." );
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        if (listaRoles== null || listaRoles.isEmpty()) {
-            response.put("mensaje", "No hay roles para el usuario.");
-            return new ResponseEntity<Map<String, Object>> (response, HttpStatus.NOT_FOUND);
-
-        }
-        return new ResponseEntity<>(listaRoles, HttpStatus.OK);
-    }*/
     // EVENTOS QUE TIENE UNA PERSONA
     @GetMapping("evento/{id}")
     @Secured({"ROLE_ADMIN","ROLE_USER"})

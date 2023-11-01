@@ -157,7 +157,7 @@ public class GrupoController {
         response.put("mensaje", "No se encontro el grupo para eliminar.");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    //MUESTRA LOS EQUIPO QUE PERTENECEN A UN GRUPO
+    //MUESTRA LOS EQUIPOS QUE PERTENECEN A UN GRUPO
     @GetMapping("equipos/{id}")
     public  ResponseEntity<?> equipoGrupos(@PathVariable Long id ) {
 

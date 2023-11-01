@@ -50,7 +50,6 @@ public class EquipoController {
     }
 
     @GetMapping("/{id}")
-    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> show(@PathVariable Long id ) {
 
         Equipo equipo = null;
@@ -196,6 +195,7 @@ public class EquipoController {
         return new ResponseEntity<>(listaJugador, HttpStatus.OK);
     }
     @PostMapping("/upload")
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> upload(@RequestParam("archivo")MultipartFile archivo, @RequestParam("id") Long id){
         Equipo equipo ;
         Map<String, Object> response = new HashMap<>();

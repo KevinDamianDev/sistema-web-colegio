@@ -11,8 +11,8 @@ import java.util.List;
 public interface ICategoriaDao extends CrudRepository<Categoria, Long> {
     boolean existsByNombreCategoria(String nombre);
 
-    @Query("SELECT e FROM Evento e WHERE e.categoria.idCategoria = :categoriaId")
-    List<Evento> findByCategoria(@Param("categoriaId") Long categoriaId);
+  /*  @Query("SELECT e FROM Evento e WHERE e.categoria.idCategoria = :categoriaId")
+    List<Evento> findByCategoria(@Param("categoriaId") Long categoriaId);*/
 
 
 }
