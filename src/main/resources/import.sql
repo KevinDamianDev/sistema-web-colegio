@@ -7,6 +7,43 @@ insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas 
 insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
 insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
 insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
+insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
+insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
+insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
+
+
+
+
+
 
 
 
