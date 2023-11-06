@@ -1,45 +1,24 @@
-insert into categoria(nombre_categoria) values ('Futbol 1');
-insert into categoria(nombre_categoria) values ('Futbol 2');
-insert into categoria(nombre_categoria) values ('Futbol 3');
-insert into categoria(nombre_categoria) values ('Futbol 4');
+insert into categoria(nombre_categoria) values ('Futbol Señores 25');
+insert into categoria(nombre_categoria) values ('Futbol Señores 20');
+insert into categoria(nombre_categoria) values ('Futbol SuperMaster');
+insert into categoria(nombre_categoria) values ('Fulbito Damas');
+insert into categoria(nombre_categoria) values ('Futbol Mayores 18');
+insert into categoria(nombre_categoria) values ('Futbol Damas 15');
+insert into categoria(nombre_categoria) values ('Futbol Niños 12');
+insert into categoria(nombre_categoria) values ('Fulbito Varones 19');
 
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-insert into evento (nombre_evento, id_categoria) values ('Evento 1 - Olimpiadas UTP', 1);
-insert into evento (nombre_evento, id_categoria) values ('Evento 2', 2);
-insert into evento (nombre_evento, id_categoria) values ('Evento 3', 3);
-insert into evento (nombre_evento, id_categoria) values ('Evento 4', 4);
-
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS UTP LIMA CENTRO', 1);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS UDEP PIURA', 2);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS Arequipa ', 3);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS AMAZONIA', 4);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS - UN MUNDO CON DEPORTE', 5);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS - AMOR AL DEPORTE ', 6);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS - KM 50', 7);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS UTP AREQUIPA', 8);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS PIURA', 2);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS AMAZONAS ', 7);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS DAMAS', 4);
+insert into evento (nombre_evento, id_categoria) values ('OLIMPIADAS REY DEL FUTBOL', 3);
 
 
 

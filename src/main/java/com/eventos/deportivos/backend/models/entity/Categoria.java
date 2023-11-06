@@ -14,7 +14,7 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategoria;
 
-    @Column( name = "nombreCategoria", nullable = false, unique = true, length = 30)
+    @Column( name = "nombreCategoria", nullable = false, length = 30)
     @NotEmpty(message = "no puede estar vacio")
     private String nombreCategoria;
 
