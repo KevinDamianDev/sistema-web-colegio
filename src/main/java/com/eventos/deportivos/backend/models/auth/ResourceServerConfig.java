@@ -31,7 +31,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/equipos/{id}",  "/equipos/uploads/**",
                         "/jugadores/uploads/**",
                         "/equipogrupoduelos/**",
-                        "/duelos/**")
+                        "/duelos/**",
+                        "/report/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource());
