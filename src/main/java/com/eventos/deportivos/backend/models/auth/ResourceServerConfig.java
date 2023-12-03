@@ -34,6 +34,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/duelos/**",
                         "/report/**")
                 .permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/mail/").permitAll()
                 .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource());
     }
