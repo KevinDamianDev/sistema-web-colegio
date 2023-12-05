@@ -10,4 +10,10 @@ public interface ReporteEventosByCategoriaServiceAPI {
 
     ReporteEventosByCategoriaDTO
     obtenerReporteEventos(Map<String, Object> params) throws JRException, IOException, SQLException;
+
+    ReporteEventosByCategoriaDTO
+    obtenerReporteEquiposByEvento(Map<String, Object> params) throws JRException, IOException, SQLException;
+
+    ReporteEventosByCategoriaDTO
+    obtenerReporteJugadoresByCategoria(Map<String, Object> params) throws JRException, IOException, SQLException;
 }

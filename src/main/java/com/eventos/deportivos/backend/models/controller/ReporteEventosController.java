@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReporteEventosController {
     @Autowired
     private ReporteEventosByCategoriaServiceAPI reporteEventoServiceAPI;
+
     @GetMapping(path = "/eventos/download")
     public ResponseEntity<Resource> download(@RequestParam Map<String, Object> params) {
         try {
@@ -59,5 +60,77 @@ public class ReporteEventosController {
         }
     }
 
+    @GetMapping(path = "/equipos/download")
+    public ResponseEntity<Resource> downloadEquiposByEvento(@RequestParam Map<String, Object> params) {
+        try {
+            String tipoReporte = params.get("tipo").toString();
+            MediaType mediaType;
+            if (TipoReporteEnum.EXCEL.name().equalsIgnoreCase(tipoReporte)) {
+                mediaType = MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            } else if (TipoReporteEnum.PDF.name().equalsIgnoreCase(tipoReporte)) {
+                mediaType = MediaType.APPLICATION_PDF;
+            } else {
+                return ResponseEntity.badRequest().build(); // Tipo de reporte no soportado
+            }
 
+            // Asegúrate de que el parámetro categoria es un entero válido
+            if (params.get("evento") != null) {
+                Integer categoria = Integer.parseInt(params.get("evento").toString());
+                params.put("evento", categoria);
+            }
+
+            // Continuar con la generación del reporte
+            ReporteEventosByCategoriaDTO dto = reporteEventoServiceAPI.obtenerReporteEquiposByEvento(params);
+            InputStreamResource streamResource = new InputStreamResource(dto.getStream());
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dto.getFileName() + "\"")
+                    .contentLength(dto.getLength())
+                    .contentType(mediaType)
+                    .body(streamResource);
+        } catch (NumberFormatException e) {
+            // Manejo de parámetro categoria inválido
+            return ResponseEntity.badRequest().body(new InputStreamResource(new ByteArrayInputStream(("Error en el formato del parámetro 'categoria': debe ser un número entero.").getBytes())));
+        } catch (Exception e) {
+            // Manejo de otros errores
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new InputStreamResource(new ByteArrayInputStream(("Error interno del servidor").getBytes())));
+        }
+    }
+
+    @GetMapping(path = "/jugadores/download")
+    public ResponseEntity<Resource> downloadJugadoresByCategoria(@RequestParam Map<String, Object> params) {
+        try {
+            String tipoReporte = params.get("tipo").toString();
+            MediaType mediaType;
+            if (TipoReporteEnum.EXCEL.name().equalsIgnoreCase(tipoReporte)) {
+                mediaType = MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            } else if (TipoReporteEnum.PDF.name().equalsIgnoreCase(tipoReporte)) {
+                mediaType = MediaType.APPLICATION_PDF;
+            } else {
+                return ResponseEntity.badRequest().build(); // Tipo de reporte no soportado
+            }
+
+            // Asegúrate de que el parámetro categoria es un entero válido
+            if (params.get("categoria") != null) {
+                Integer categoria = Integer.parseInt(params.get("categoria").toString());
+                params.put("categoria", categoria);
+            }
+
+            // Continuar con la generación del reporte
+            ReporteEventosByCategoriaDTO dto = reporteEventoServiceAPI.obtenerReporteJugadoresByCategoria(params);
+            InputStreamResource streamResource = new InputStreamResource(dto.getStream());
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dto.getFileName() + "\"")
+                    .contentLength(dto.getLength())
+                    .contentType(mediaType)
+                    .body(streamResource);
+        } catch (NumberFormatException e) {
+            // Manejo de parámetro categoria inválido
+            return ResponseEntity.badRequest().body(new InputStreamResource(new ByteArrayInputStream(("Error en el formato del parámetro 'categoria': debe ser un número entero.").getBytes())));
+        } catch (Exception e) {
+            // Manejo de otros errores
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new InputStreamResource(new ByteArrayInputStream(("Error interno del servidor").getBytes())));
+        }
+    }
 }

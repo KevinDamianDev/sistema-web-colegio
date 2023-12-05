@@ -54,13 +54,15 @@ insert into equipo(nombre_equipo) values ('Aliaza lima');
 insert into equipo(nombre_equipo) values ('U');
 insert into equipo(nombre_equipo) values ('Sporting Cristal');
 insert into equipo(nombre_equipo) values ('Cienciano');
-insert into equipo(nombre_equipo) values ('Cienciano 2');
+insert into equipo(nombre_equipo) values ('Grau');
 
 insert into evento_equipo(id_equipo, id_evento) values(1,1);
 insert into evento_equipo(id_equipo, id_evento) values(2,1);
 insert into evento_equipo(id_equipo, id_evento) values(3,1);
 insert into evento_equipo(id_equipo, id_evento) values(4,1);
-
+insert into evento_equipo(id_equipo, id_evento) values(2,2);
+insert into evento_equipo(id_equipo, id_evento) values(3,2);
+insert into evento_equipo(id_equipo, id_evento) values(4,2);
 
 
 insert into jugador (nombre_jugador, fechanjugador,dni,dorsal_jugador) values ('Kevin Damian', '2000-01-12', 77097355,10);
@@ -74,7 +76,7 @@ insert into equipo_jugador(id_equipo, id_jugador) values (1,1);
 insert into equipo_jugador(id_equipo, id_jugador) values (1,2);
 
 insert into equipo_jugador(id_equipo, id_jugador) values (2,3);
---insert into equipo_jugador(id_equipo, id_jugador) values (2,4);
+insert into equipo_jugador(id_equipo, id_jugador) values (2,4);
 
 
 insert into fase (nombre_fase, id_evento) values ('Fase de inicio',1);

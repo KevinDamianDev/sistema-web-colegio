@@ -40,4 +40,40 @@ public class ReporteEventosServiceImpl implements ReporteEventosByCategoriaServi
         return dto;
 
     }
+
+    @Override
+    public ReporteEventosByCategoriaDTO obtenerReporteEquiposByEvento(Map<String, Object> params) throws JRException, IOException, SQLException {
+        String fileName = "eventos2";
+        ReporteEventosByCategoriaDTO dto = new ReporteEventosByCategoriaDTO();
+        String extension = params.get("tipo").toString().equalsIgnoreCase(TipoReporteEnum.EXCEL.name()) ? ".xlsx"
+                : ".pdf";
+        dto.setFileName(fileName + extension);
+
+        ByteArrayOutputStream stream = reportManager.export(fileName, params.get("tipo").toString(), params,
+                dataSource.getConnection());
+
+        byte[] bs = stream.toByteArray();
+        dto.setStream(new ByteArrayInputStream(bs));
+        dto.setLength(bs.length);
+
+        return dto;
+    }
+
+    @Override
+    public ReporteEventosByCategoriaDTO obtenerReporteJugadoresByCategoria(Map<String, Object> params) throws JRException, IOException, SQLException {
+        String fileName = "categoria_re";
+        ReporteEventosByCategoriaDTO dto = new ReporteEventosByCategoriaDTO();
+        String extension = params.get("tipo").toString().equalsIgnoreCase(TipoReporteEnum.EXCEL.name()) ? ".xlsx"
+                : ".pdf";
+        dto.setFileName(fileName + extension);
+
+        ByteArrayOutputStream stream = reportManager.export(fileName, params.get("tipo").toString(), params,
+                dataSource.getConnection());
+
+        byte[] bs = stream.toByteArray();
+        dto.setStream(new ByteArrayInputStream(bs));
+        dto.setLength(bs.length);
+
+        return dto;
+    }
 }
