@@ -1,14 +1,12 @@
-# Imagen base de Java 17
-FROM eclipse-temurin:17-jdk
-
-# Crear el directorio dentro del contenedor
+# Etapa 1: Compilación
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copiar el archivo jar al contenedor
-COPY dist/eventos-backend-0.0.1-SNAPSHOT.jar app.jar
-
-# Exponer el puerto
+# Etapa 2: Ejecución
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/target/eventos-backend-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Comando para ejecutar el jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
