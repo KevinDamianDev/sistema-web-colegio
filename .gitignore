@@ -33,3 +33,6 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/import.sql
+
+# No subir las claves privadas
+/src/main/resources/keys/*.pem

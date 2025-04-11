@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @Configuration
@@ -61,9 +62,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey(JwtConfig.RSA_PRIVATE);
-        jwtAccessTokenConverter.setVerifierKey(JwtConfig.RSA_PUBLICA);
-
+        try {
+            jwtAccessTokenConverter.setSigningKey(JwtConfig.getPrivateKey());
+            jwtAccessTokenConverter.setVerifierKey(JwtConfig.getPublicKey());
+        } catch (IOException e) {
+            throw new RuntimeException("❌ No se pudieron cargar las llaves JWT", e);
+        }
         return jwtAccessTokenConverter;
     }
+
 }

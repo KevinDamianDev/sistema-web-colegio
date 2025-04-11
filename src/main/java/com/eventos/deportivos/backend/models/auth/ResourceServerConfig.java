@@ -20,22 +20,30 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/eventos/", "/eventos/**",
-                        "/images/*",
-                        "/fases/{id}", "/fases/fechas/{id}","/fases/grupos/{id}",
-                        "/fechas/**",
-                        "/equipogrupos/**",
-                        "/grupos/**",
-                        "/equipoEstadisticas/**",
-                        "/equipojugador/**",
-                        "/equipos/{id}",  "/equipos/uploads/**",
-                        "/jugadores/uploads/**",
-                        "/equipogrupoduelos/**",
-                        "/duelos/**",
-                        "/report/**")
-                .permitAll()
-                .antMatchers(HttpMethod.POST,
-                        "/mail/").permitAll()
+        http.authorizeRequests()
+                /* .antMatchers( HttpMethod.GET,
+                         "/eventos/", "/eventos/**",
+                         "/images/*",
+                         "/fases/{id}", "/fases/fechas/{id}","/fases/grupos/{id}",
+                         "/fechas/**",
+                         "/equipogrupos/**",
+                         "/grupos/**",
+                         "/equipoEstadisticas/**",
+                         "/equipojugador/**",
+                         "/equipos/{id}",  "/equipos/uploads/**",
+                         "/jugadores/uploads/**",
+                         "/equipogrupoduelos/**",
+                         "/duelos/**",
+                         "/report/**",
+                         "/ie/**")
+                 .permitAll()
+                 .antMatchers(HttpMethod.POST,
+                         "/mail/",
+                         "/ie/**").permitAll()
+                 .antMatchers(HttpMethod.PUT,
+                         "/ie/**").permitAll()
+                 .antMatchers(HttpMethod.DELETE,
+                         "/ie/**").permitAll()*/
                 .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource());
     }
@@ -43,7 +51,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowCredentials(true);
         config.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));
