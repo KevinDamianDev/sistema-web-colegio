@@ -86,6 +86,7 @@
 	</dependencies>
 
 	<build>
+		<directory>${project.basedir}/dist</directory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
