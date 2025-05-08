@@ -21,7 +21,7 @@ public class PersonaC {
     @Column(nullable = false)
     private String apellidosPersonas;
     @NotNull
-    @Column(nullable = false, unique =true)
+    @Column(nullable = false)
     private int dniPersona;
     @NotNull
 
